@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, {useState} from "react"
 import './App.css';
+import info from "./info";
+import Card from './Card'
 
 function App() {
+  const [data,setData]=useState(info)
+  const [status,setStatus]=useState(true)
+  function refresh(){
+        if(!status){
+           setData(info)
+           setStatus(true)
+        }else{
+           setStatus(false)
+        }
+  }
+  const clearAll=()=>{
+      setData([])
+      setStatus(false)
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 style={{color:"red"}}><center>{data.length} Birthdays today</center></h1>
+    
+      {status && <Card details={data} sendState={data} sendChangeState={setData}/>}
+      <div className="ter"><div>
+      <button  className="button" onClick={()=>clearAll()}>Clear All</button>
+      <button  className="button" onClick={()=>refresh()}>Refresh</button>
+      </div>
+      </div>
     </div>
   );
 }
